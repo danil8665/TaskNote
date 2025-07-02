@@ -129,20 +129,6 @@ export default function PermanentDrawerLeft() {
     showSnackbar('Задачу відредаговано', 'info');
   };
 
-  const handleToggleImportant = async (post: any) => {
-    const postRef = doc(db, 'posts', post.id);
-    await updateDoc(postRef, { important: !post.important });
-    setPosts((posts) =>
-      posts.map((p) =>
-        p.id === post.id ? { ...p, important: !p.important } : p,
-      ),
-    );
-    showSnackbar(
-      !post.important ? 'Додано у Важливі' : 'Видалено з Важливих',
-      !post.important ? 'success' : 'info',
-    );
-  };
-
   const filteredPosts = posts.filter((post) => {
     if (statusFilter && post.status !== statusFilter) return false;
     let postDeadline = null;
