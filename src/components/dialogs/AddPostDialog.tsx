@@ -10,7 +10,7 @@ import {
   Select,
   MenuItem,
 } from '@mui/material';
-import { db } from '../../firebase';
+import { db, auth } from '../../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 
 const STATUS_OPTIONS = ['У процесі', 'До виконання', 'Виконано'];
@@ -49,6 +49,7 @@ export default function AddPostDialog({
         status,
         deadline: deadline ? new Date(deadline) : null,
         created: new Date(),
+        userId: auth.currentUser?.uid,
       });
       setSuccess('Запис додано!');
       setTitle('');

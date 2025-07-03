@@ -22,6 +22,7 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
@@ -90,7 +91,16 @@ export default function PermanentDrawerLeft() {
   useEffect(() => {
     const fetchPosts = async () => {
       setLoadingPosts(true);
-      const q = query(collection(db, 'posts'), orderBy('created', 'desc'));
+      if (!auth.currentUser) {
+        setPosts([]);
+        setLoadingPosts(false);
+        return;
+      }
+      const q = query(
+        collection(db, 'posts'),
+        where('userId', '==', auth.currentUser.uid),
+        orderBy('created', 'desc'),
+      );
       const querySnapshot = await getDocs(q);
       setPosts(
         querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })),
@@ -573,8 +583,14 @@ export default function PermanentDrawerLeft() {
             setAddOpen(false);
             const fetchPosts = async () => {
               setLoadingPosts(true);
+              if (!auth.currentUser) {
+                setPosts([]);
+                setLoadingPosts(false);
+                return;
+              }
               const q = query(
                 collection(db, 'posts'),
+                where('userId', '==', auth.currentUser.uid),
                 orderBy('created', 'desc'),
               );
               const querySnapshot = await getDocs(q);
