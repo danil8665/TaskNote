@@ -556,7 +556,7 @@ export default function PermanentDrawerLeft() {
               }}
             />
             <Typography variant="body2" sx={{ color: '#fff', mt: 1 }}>
-              дедлайн більше місяця
+              дедлайн більше 1 дня
             </Typography>
           </Box>
         </Box>
